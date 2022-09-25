@@ -269,12 +269,12 @@
 					return r;
 				}
 
-				var r = radiusTriangle( veR[0], veR[1], veR[2] )
-
-				console.log(r)
-
-				// Параллельный перенос и поворот
-
+				// Расчёт радиуса на каждом отрезке
+				for (let i = 1; i < poS.count - 1; i++) {
+					var r = radiusTriangle( veR[i-1], veR[i], veR[i+1] )
+					console.log(r)					
+				}				
+				
 				// =========================
 
 			}
