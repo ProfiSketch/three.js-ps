@@ -233,22 +233,33 @@
 
 				render();
 
-				// Вывод вершин в консоль
+				// === Вывод вершин в консоль ===
 
-				console.log (curve.mesh.geometry.attributes.position.count)
-
-
-				
-				
+				// Массив координат
 				const poS = curve.mesh.geometry.attributes.position
+
+				// Количество вершин
+				console.log (poS.count)
 				
-				for (let i = 0; i < poS.count; i++) 
-				{
-				
-					let vertex = new THREE.Vector3(poS.getX(i),poS.getY(i),poS.getZ(i))
-					console.log(i,vertex)
-				
+				// Массив вершин
+				var veR = new Array;
+
+				// Заполнение массива вершин
+				for (let i = 0; i < poS.count; i++) {
+					veR[i] = new THREE.Vector3(poS.getX(i),poS.getY(i),poS.getZ(i))
 				}
+
+				// Вывод первых 3х вершин
+				console.log(veR[0], veR[1], veR[2])
+
+				// Нахождение векторов AB и AC
+				var oa = veR[1].sub( veR[1] )
+				var ab = veR[0].sub( veR[1] )
+				var ac = veR[2].sub( veR[1] )
+
+				console.log(oa, ab, ac)
+
+				// Параллельный перенос и поворот
 
 				// =========================
 
