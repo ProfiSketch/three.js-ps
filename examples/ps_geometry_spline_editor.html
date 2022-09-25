@@ -238,13 +238,15 @@
 				console.log (curve.mesh.geometry.attributes.position.count)
 
 
-				const count = curve.mesh.geometry.attributes.position.count
-				const aR = curve.mesh.geometry.attributes.position.array
-				for (let i = 0; i < count; i++) 
+				
+				
+				const poS = curve.mesh.geometry.attributes.position
+				
+				for (let i = 0; i < poS.count; i++) 
 				{
 				
-					let vertex = new THREE.Vector3(aR[i],aR[i++],aR[i+2])
-					console.log(vertex)
+					let vertex = new THREE.Vector3(poS.getX(i),poS.getY(i),poS.getZ(i))
+					console.log(i,vertex)
 				
 				}
 
