@@ -252,12 +252,16 @@
 				// Вывод первых 3х вершин
 				console.log(veR[0], veR[1], veR[2])
 
-				// Нахождение векторов AB и AC
-				var oa = veR[1].sub( veR[1] )
-				var ab = veR[0].sub( veR[1] )
-				var ac = veR[2].sub( veR[1] )
+				// Стороны треугольника
+				var a = veR[0].distanceTo( veR[1] )
+				var b = veR[1].distanceTo( veR[2] )
+				var c = veR[0].distanceTo( veR[2] )
+				
+				// Радиус описанной окружности
+				var p = (a + b + c) / 2
+				var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
 
-				console.log(oa, ab, ac)
+				console.log(r)
 
 				// Параллельный перенос и поворот
 
