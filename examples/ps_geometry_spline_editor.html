@@ -209,27 +209,15 @@
 				curve.mesh.castShadow = true;
 				splines.chordal = curve;
 
-				// Вывод вершин в консоль
 				
-				var position = splines.chordal.mesh.geometry.getAttribute( 'position' );
-				console.log( position );
-				console.log( position.array );
-				console.log( position.getX(1) );
 				
-				//for (var i = 0; i < position.count; i++) {
+			
 				
-					//var v = new THREE.Vector3().fromBufferAttribute( position, i )
-					// var x = position.getX(i);
-					// var y = position.getY(i);
-					// var z = position.getZ(i);
-					
-					//console.log( i, v );
-					// console.log( i, x, y, z );
-				//}
+			
 
-				//console.log( splines.chordal.mesh.geometry.attributes.position.array );
 
-				// =========================
+
+				
 
 				for ( const k in splines ) {
 
@@ -244,6 +232,23 @@
 					new THREE.Vector3( - 383.785318791128, 491.1365363371675, 47.869296953772746 ) ] );
 
 				render();
+
+				// Вывод вершин в консоль
+
+				console.log (curve.mesh.geometry.attributes.position.count)
+
+
+				const count = curve.mesh.geometry.attributes.position.count
+				const aR = curve.mesh.geometry.attributes.position.array
+				for (let i = 0; i < count; i++) 
+				{
+				
+					let vertex = new THREE.Vector3(aR[i],aR[i++],aR[i+2])
+					console.log(vertex)
+				
+				}
+
+				// =========================
 
 			}
 
@@ -269,6 +274,7 @@
 				scene.add( object );
 				splineHelperObjects.push( object );
 				return object;
+				
 
 			}
 
@@ -339,7 +345,7 @@
 
 				}
 
-				console.log( strplace.join( ',\n' ) );
+				// console.log( strplace.join( ',\n' ) );
 				const code = '[' + ( strplace.join( ',\n\t' ) ) + ']';
 				prompt( 'copy and paste code', code );
 
