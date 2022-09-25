@@ -1,4 +1,7 @@
 {
+	"ps": [
+		"ps_geometry_spline_editor"
+	],
 	"webgl": [
 		"webgl_animation_keyframes",
 		"webgl_animation_skinning_blending",
