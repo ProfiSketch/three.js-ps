@@ -252,14 +252,24 @@
 				// Вывод первых 3х вершин
 				console.log(veR[0], veR[1], veR[2])
 
-				// Стороны треугольника
-				var a = veR[0].distanceTo( veR[1] )
-				var b = veR[1].distanceTo( veR[2] )
-				var c = veR[0].distanceTo( veR[2] )
-				
-				// Радиус описанной окружности
-				var p = (a + b + c) / 2
-				var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
+				// Радиус описанной окружности по трём точкам в пространстве
+				function radiusTriangle ( x, y, z ) {
+
+					// TODO: Проверка принадлежности одной прямой
+
+					// Стороны треугольника
+					var a = x.distanceTo( y )
+					var b = y.distanceTo( z )
+					var c = x.distanceTo( z )
+					
+					// Радиус описанной окружности
+					var p = (a + b + c) / 2
+					var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 					
+
+					return r;
+				}
+
+				var r = radiusTriangle( veR[0], veR[1], veR[2] )
 
 				console.log(r)
 
