@@ -235,18 +235,30 @@
 
 				// Вывод вершин в консоль
 
-				console.log (curve.mesh.geometry.attributes.position.count)
+				// console.log (curve.mesh.geometry.attributes.position.count)
 
-
-				
-				
 				const poS = curve.mesh.geometry.attributes.position
-				
-				// Радиус описанной окружности
-				var p = (a + b + c) / 2
-				var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
 
-				console.log(r)
+				for(let i = 0; i < poS.count; i++)
+				{
+					const vertex = new THREE.Vector3 (poS.getX(i),poS.getY(i),poS.getZ(i))
+					const p = (vertex.x + vertex.y + vertex.z)/2
+					console.log(p)
+					
+					const circleGeometry = new THREE.CircleGeometry( 5, 32 )
+					const circleMaterial = new THREE.MeshBasicMaterial( { color: 0x3d271c } )
+					const circle = new THREE.Mesh( circleGeometry, circleMaterial)
+					scene.add( circle )
+					// console.log(i,r,vertex)
+				}
+				 
+
+	
+				// Радиус описанной окружности
+				// var p = (a + b + c) / 2
+				// var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
+
+				// console.log(r)
 
 				// Параллельный перенос и поворот
 
