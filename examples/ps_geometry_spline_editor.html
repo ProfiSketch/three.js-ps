@@ -235,21 +235,23 @@
 
 				// Вывод вершин в консоль
 
-				// console.log (curve.mesh.geometry.attributes.position.count)
-
 				const poS = curve.mesh.geometry.attributes.position
+
+				// for(let i = 0; i < poS.count; i++)
+				// {
+				// 	const vertex = new THREE.Vector3 (poS.getX(i),poS.getY(i),poS.getZ(i))
+				// 	console.log(i,vertex)
+				// }
+
+
+				// Массив вершин
+
+				let veR = new Array()
 
 				for(let i = 0; i < poS.count; i++)
 				{
-					const vertex = new THREE.Vector3 (poS.getX(i),poS.getY(i),poS.getZ(i))
-					const p = (vertex.x + vertex.y + vertex.z)/2
-					console.log(p)
+					veR[i] = new THREE.Vector3 (poS.getX(i),poS.getY(i),poS.getZ(i))
 					
-					const circleGeometry = new THREE.CircleGeometry( 5, 32 )
-					const circleMaterial = new THREE.MeshBasicMaterial( { color: 0x3d271c } )
-					const circle = new THREE.Mesh( circleGeometry, circleMaterial)
-					scene.add( circle )
-					// console.log(i,r,vertex)
 				}
 
 				// Вывод первых 3х вершин
@@ -258,8 +260,6 @@
 				// Радиус описанной окружности по трём точкам в пространстве
 				function radiusTriangle ( x, y, z ) {
 
-					// TODO: Проверка принадлежности одной прямой
-
 					// Стороны треугольника
 					var a = x.distanceTo( y )
 					var b = y.distanceTo( z )
@@ -267,13 +267,22 @@
 					
 					// Радиус описанной окружности
 					var p = (a + b + c) / 2
-					var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 					
+					var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
+					return r		
+				}
 
-				console.log(r)
+				// let r = radiusTriangle(veR[0], veR[1], veR[2])
+				// console.log(r)
 
 				// Параллельный перенос и поворот
 
-				// =========================
+				// Расчет радиуса на каждом отрезке
+				for(let i = 1; i < poS.count-1; i++)
+				{
+					const raD = radiusTriangle(veR[i-1], veR[i], veR[i+1])
+					console.log(raD)
+					
+				}
 
 			}
 
