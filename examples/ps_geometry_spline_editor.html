@@ -251,14 +251,25 @@
 					scene.add( circle )
 					// console.log(i,r,vertex)
 				}
-				 
 
-	
-				// Радиус описанной окружности
-				// var p = (a + b + c) / 2
-				// var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
+				// Вывод первых 3х вершин
+				console.log(veR[0], veR[1], veR[2])
 
-				// console.log(r)
+				// Радиус описанной окружности по трём точкам в пространстве
+				function radiusTriangle ( x, y, z ) {
+
+					// TODO: Проверка принадлежности одной прямой
+
+					// Стороны треугольника
+					var a = x.distanceTo( y )
+					var b = y.distanceTo( z )
+					var c = x.distanceTo( z )
+					
+					// Радиус описанной окружности
+					var p = (a + b + c) / 2
+					var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 					
+
+				console.log(r)
 
 				// Параллельный перенос и поворот
 
