@@ -44,12 +44,14 @@
 			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 			import { TransformControls } from 'three/addons/controls/TransformControls.js';
 
+
 			let container;
 			let camera, scene, renderer;
 			const splineHelperObjects = [];
 			let splinePointsLength = 4;
 			const positions = [];
 			const point = new THREE.Vector3();
+			let veR = new Array();
 
 			const raycaster = new THREE.Raycaster();
 			const pointer = new THREE.Vector2();
@@ -59,7 +61,7 @@
 			const geometry = new THREE.BoxGeometry( 20, 20, 20 );
 			let transformControl;
 
-			const ARC_SEGMENTS = 200;
+			const ARC_SEGMENTS = 20;
 
 			const splines = {};
 
@@ -118,6 +120,7 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				renderer.shadowMap.enabled = true;
 				container.appendChild( renderer.domElement );
+				
 
 				const gui = new GUI();
 
@@ -182,25 +185,25 @@
 				const geometry = new THREE.BufferGeometry();
 				geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array( ARC_SEGMENTS * 3 ), 3 ) );
 
+				// let curve = new THREE.CatmullRomCurve3( positions );
+				// curve.curveType = 'catmullrom';
+				// curve.mesh = new THREE.Line( geometry.clone(), new THREE.LineBasicMaterial( {
+				// 	color: 0xff0000,
+				// 	opacity: 0.35
+				// } ) );
+				// curve.mesh.castShadow = true;
+				// splines.uniform = curve;
+
+				// curve = new THREE.CatmullRomCurve3( positions );
+				// curve.curveType = 'centripetal';
+				// curve.mesh = new THREE.Line( geometry.clone(), new THREE.LineBasicMaterial( {
+				// 	color: 0x00ff00,
+				// 	opacity: 0.35
+				// } ) );
+				// curve.mesh.castShadow = true;
+				// splines.centripetal = curve;
+
 				let curve = new THREE.CatmullRomCurve3( positions );
-				curve.curveType = 'catmullrom';
-				curve.mesh = new THREE.Line( geometry.clone(), new THREE.LineBasicMaterial( {
-					color: 0xff0000,
-					opacity: 0.35
-				} ) );
-				curve.mesh.castShadow = true;
-				splines.uniform = curve;
-
-				curve = new THREE.CatmullRomCurve3( positions );
-				curve.curveType = 'centripetal';
-				curve.mesh = new THREE.Line( geometry.clone(), new THREE.LineBasicMaterial( {
-					color: 0x00ff00,
-					opacity: 0.35
-				} ) );
-				curve.mesh.castShadow = true;
-				splines.centripetal = curve;
-
-				curve = new THREE.CatmullRomCurve3( positions );
 				curve.curveType = 'chordal';
 				curve.mesh = new THREE.Line( geometry.clone(), new THREE.LineBasicMaterial( {
 					color: 0x0000ff,
@@ -208,16 +211,6 @@
 				} ) );
 				curve.mesh.castShadow = true;
 				splines.chordal = curve;
-
-				
-				
-			
-				
-			
-
-
-
-				
 
 				for ( const k in splines ) {
 
@@ -236,17 +229,16 @@
 				// Вывод вершин в консоль
 
 				const poS = curve.mesh.geometry.attributes.position
+				
+				
 
-				// for(let i = 0; i < poS.count; i++)
-				// {
-				// 	const vertex = new THREE.Vector3 (poS.getX(i),poS.getY(i),poS.getZ(i))
-				// 	console.log(i,vertex)
-				// }
-
-
+				// console.log(curve.mesh.geometry.attributes.position)
+				
+			
 				// Массив вершин
 
-				let veR = new Array()
+				
+				let raD 
 
 				for(let i = 0; i < poS.count; i++)
 				{
@@ -254,11 +246,34 @@
 					
 				}
 
-				// Вывод первых 3х вершин
-				console.log(veR[0], veR[1], veR[2])
+				
+
+
+				// let lineMaterial = new THREE.LineBasicMaterial
+				// ({
+				// 	color: 0x0000ff
+				// });
+
+				// const points = [];
+				// points.push( veR[1] );
+				// points.push( veR[4]);
+				// points.push( veR[8]);
+				
+
+				// const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
+
+				// const line = new THREE.Line( lineGeometry, lineMaterial );
+				
+				// scene.add( line );
+
+				// console.log(line.geometry.attributes.position.array)
+
+				
+
 
 				// Радиус описанной окружности по трём точкам в пространстве
-				function radiusTriangle ( x, y, z ) {
+				function radiusTriangle ( x, y, z ) 
+				{
 
 					// Стороны треугольника
 					var a = x.distanceTo( y )
@@ -271,18 +286,24 @@
 					return r		
 				}
 
-				// let r = radiusTriangle(veR[0], veR[1], veR[2])
-				// console.log(r)
-
-				// Параллельный перенос и поворот
-
 				// Расчет радиуса на каждом отрезке
+
 				for(let i = 1; i < poS.count-1; i++)
+
 				{
-					const raD = radiusTriangle(veR[i-1], veR[i], veR[i+1])
-					console.log(raD)
-					
+					// const vertex = new THREE.Vector3(veR[i-1], veR[i], veR[i+1])
+					raD = radiusTriangle(veR[i-1], veR[i], veR[i+1])
+					// console.log(raD)
 				}
+
+			
+				if(raD<700){
+					lineMaterial = new THREE.LineBasicMaterial
+					({
+							color: 0xff00ff
+					});	
+				}
+				
 
 			}
 
@@ -347,10 +368,12 @@
 
 			function updateSplineOutline() {
 
+				
+
 				for ( const k in splines ) {
 
 					const spline = splines[ k ];
-
+					
 					const splineMesh = spline.mesh;
 					const position = splineMesh.geometry.attributes.position;
 
@@ -359,12 +382,38 @@
 						const t = i / ( ARC_SEGMENTS - 1 );
 						spline.getPoint( t, point );
 						position.setXYZ( i, point.x, point.y, point.z );
+				
 
+						veR[i] = new THREE.Vector3 (position.getX(i),position.getY(i),position.getZ(i))
+
+						
 					}
 
 					position.needsUpdate = true;
 
+					// line
+
+					let lineMaterial = new THREE.LineBasicMaterial
+					({
+						color: 0xE5B80B
+					});
+
+					const points = [];
+					points.push( veR[1]);
+					points.push( veR[8]);
+					points.push( veR[15]);
+
+					const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
+					const line = new THREE.Line( lineGeometry, lineMaterial );
+					scene.add( line );
+					
+					
+					
+					console.log(veR)
+
 				}
+
+				
 
 			}
 
@@ -407,15 +456,17 @@
 
 				updateSplineOutline();
 
+
 			}
 
 			function render() {
 
-				splines.uniform.mesh.visible = params.uniform;
-				splines.centripetal.mesh.visible = params.centripetal;
+				// splines.uniform.mesh.visible = params.uniform;
+				// splines.centripetal.mesh.visible = params.centripetal;
 				splines.chordal.mesh.visible = params.chordal;
+				
 				renderer.render( scene, camera );
-
+				
 			}
 
 			function onPointerDown( event ) {
