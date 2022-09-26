@@ -236,16 +236,19 @@
 				// Вывод вершин в консоль
 
 				console.log (curve.mesh.geometry.attributes.position.count)
+
+
+				
 				
 				const poS = curve.mesh.geometry.attributes.position
 				
-				for (let i = 0; i < poS.count; i++) 
-				{
-				
-					let vertex = new THREE.Vector3(poS.getX(i),poS.getY(i),poS.getZ(i))
-					console.log(i,vertex)
-				
-				}
+				// Радиус описанной окружности
+				var p = (a + b + c) / 2
+				var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
+
+				console.log(r)
+
+				// Параллельный перенос и поворот
 
 				// =========================
 
