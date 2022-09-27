@@ -123,22 +123,22 @@
 				container.appendChild( renderer.domElement );
 				
 
-				const gui = new GUI();
+				// const gui = new GUI();
 
-				gui.add( params, 'uniform' ).onChange( render );
-				gui.add( params, 'tension', 0, 1 ).step( 0.01 ).onChange( function ( value ) {
+				// gui.add( params, 'uniform' ).onChange( render );
+				// gui.add( params, 'tension', 0, 1 ).step( 0.01 ).onChange( function ( value ) {
 
-					splines.uniform.tension = value;
-					updateSplineOutline();
-					render();
+				// 	splines.uniform.tension = value;
+				// 	updateSplineOutline();
+				// 	render();
 
-				} );
-				gui.add( params, 'centripetal' ).onChange( render );
-				gui.add( params, 'chordal' ).onChange( render );
-				gui.add( params, 'addPoint' );
-				gui.add( params, 'removePoint' );
-				gui.add( params, 'exportSpline' );
-				gui.open();
+				// } );
+				// gui.add( params, 'centripetal' ).onChange( render );
+				// gui.add( params, 'chordal' ).onChange( render );
+				// gui.add( params, 'addPoint' );
+				// gui.add( params, 'removePoint' );
+				// gui.add( params, 'exportSpline' );
+				// gui.open();
 
 				// Controls
 				const controls = new OrbitControls( camera, renderer.domElement );
@@ -382,6 +382,7 @@
 					const spline = splines[ k ];
 					const splineMesh = spline.mesh;
 					const position = splineMesh.geometry.attributes.position;
+					let radius
 					
 				
 
@@ -396,44 +397,71 @@
 
 					position.needsUpdate = true;
 
-					const radius = radiusTriangle(veR[1],veR[8],veR[15])
+					for(let i = 1;i < veR.length-1;i++){
+						const radius = radiusTriangle(veR[i-1],veR[i],veR[i+1])
+						console.log(radius)
+						
+						// line1
+						let lineMaterial1
+
+						if(radius<300){
+							lineMaterial1 = new THREE.LineBasicMaterial({color: 0xe01616});
+						} else {
+							lineMaterial1 = new THREE.LineBasicMaterial({color: 0xE5B80B});
+						}
+
+						const points1 = [];
+						points1.push( veR[i-1]);
+						points1.push( veR[i]);
+
+						const lineGeometry1 = new THREE.BufferGeometry().setFromPoints(points1);
+						const line1 = new THREE.Line( lineGeometry1, lineMaterial1 );
+
+						
+						lineHepers.push(line1)
+					
+					 	scene.add( line1)
+
+					}
+				
+					// const radius = radiusTriangle(veR[0],veR[1],veR[2])
 
 					// line1
-					let lineMaterial1
+					// let lineMaterial1
 
-					if(radius<300){
-						lineMaterial1 = new THREE.LineBasicMaterial({color: 0xe01616});
-					} else {
-						lineMaterial1 = new THREE.LineBasicMaterial({color: 0xE5B80B});
-					}
+					// if(radius<300){
+					// 	lineMaterial1 = new THREE.LineBasicMaterial({color: 0xe01616});
+					// } else {
+					// 	lineMaterial1 = new THREE.LineBasicMaterial({color: 0xE5B80B});
+					// }
 
-					const points1 = [];
-					points1.push( veR[1]);
-					points1.push( veR[8]);
+					// const points1 = [];
+					// points1.push( veR[0]);
+					// points1.push( veR[1]);
 
-					const lineGeometry1 = new THREE.BufferGeometry().setFromPoints(points1);
-					const line1 = new THREE.Line( lineGeometry1, lineMaterial1 );
+					// const lineGeometry1 = new THREE.BufferGeometry().setFromPoints(points1);
+					// const line1 = new THREE.Line( lineGeometry1, lineMaterial1 );
 
 					// / line2
 					
-					const lineMaterial2 = new THREE.LineBasicMaterial({color: 0xE5B80B});
+					// const lineMaterial2 = new THREE.LineBasicMaterial({color: 0xE5B80B});
 					
 
-					const points2 = [];
-					points2.push( veR[8]);
-					points2.push( veR[15]);
+					// const points2 = [];
+					// points2.push( veR[1]);
+					// points2.push( veR[2]);
 
-					const lineGeometry2 = new THREE.BufferGeometry().setFromPoints(points2);
-					const line2 = new THREE.Line( lineGeometry2, lineMaterial2 );
+					// const lineGeometry2 = new THREE.BufferGeometry().setFromPoints(points2);
+					// const line2 = new THREE.Line( lineGeometry2, lineMaterial2 );
 
 
 
-					lineHepers.push(line1,line2)
+					// lineHepers.push(line1,line2)
 					
-					scene.add( line1,line2 )
+					// scene.add( line1,line2 )
 
 
-					console.log(radius)
+					
 
 				}
 
