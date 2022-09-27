@@ -228,6 +228,7 @@
 
 				// Вывод вершин в консоль
 
+				let raD
 				const poS = curve.mesh.geometry.attributes.position
 				
 				
@@ -237,14 +238,13 @@
 			
 				// Массив вершин
 
-				
-				let raD 
 
-				for(let i = 0; i < poS.count; i++)
-				{
-					veR[i] = new THREE.Vector3 (poS.getX(i),poS.getY(i),poS.getZ(i))
+
+				// for(let i = 0; i < poS.count; i++)
+				// {
+				// 	veR[i] = new THREE.Vector3 (poS.getX(i),poS.getY(i),poS.getZ(i))
 					
-				}
+				// }
 
 				
 
@@ -272,38 +272,29 @@
 
 
 				// Радиус описанной окружности по трём точкам в пространстве
-				function radiusTriangle ( x, y, z ) 
-				{
+				// function radiusTriangle ( x, y, z ) 
+				// {
 
-					// Стороны треугольника
-					var a = x.distanceTo( y )
-					var b = y.distanceTo( z )
-					var c = x.distanceTo( z )
+				// 	// Стороны треугольника
+				// 	var a = x.distanceTo( y )
+				// 	var b = y.distanceTo( z )
+				// 	var c = x.distanceTo( z )
 					
-					// Радиус описанной окружности
-					var p = (a + b + c) / 2
-					var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
-					return r		
-				}
+				// 	// Радиус описанной окружности
+				// 	var p = (a + b + c) / 2
+				// 	var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
+				// 	return r		
+				// }
 
 				// Расчет радиуса на каждом отрезке
 
-				for(let i = 1; i < poS.count-1; i++)
+				// for(let i = 1; i < poS.count-1; i++)
 
-				{
+				// {
 					// const vertex = new THREE.Vector3(veR[i-1], veR[i], veR[i+1])
-					raD = radiusTriangle(veR[i-1], veR[i], veR[i+1])
+					// raD = radiusTriangle(veR[i-1], veR[i], veR[i+1])
 					// console.log(raD)
-				}
-
-			
-				if(raD<700){
-					lineMaterial = new THREE.LineBasicMaterial
-					({
-							color: 0xff00ff
-					});	
-				}
-				
+				// }
 
 			}
 
@@ -372,48 +363,64 @@
 
 				for ( const k in splines ) {
 
+					// function radiusTriangle ( vertex1, vertex2, vertex3 ) {
+
+					// 	// Стороны треугольника
+					// 	var a = vertex1.distanceTo( vertex2 )
+					// 	var b = vertex2.distanceTo( vertex3 )
+					// 	var c = vertex1.distanceTo( vertex3 )
+						
+					// 	// Радиус описанной окружности
+					// 	var p = (a + b + c) / 2
+					// 	var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
+					// 	return r		
+					// }
+
 					const spline = splines[ k ];
-					
 					const splineMesh = spline.mesh;
 					const position = splineMesh.geometry.attributes.position;
+					
+				
 
 					for ( let i = 0; i < ARC_SEGMENTS; i ++ ) {
 
 						const t = i / ( ARC_SEGMENTS - 1 );
 						spline.getPoint( t, point );
-						position.setXYZ( i, point.x, point.y, point.z );
-				
-
+						position.setXYZ( i, point.x, point.y, point.z );	
 						veR[i] = new THREE.Vector3 (position.getX(i),position.getY(i),position.getZ(i))
-
-						
 					}
+					
 
 					position.needsUpdate = true;
 
+					const triangleA = veR[1].distanceTo(veR[8])
+					const triangleB = veR[8].distanceTo(veR[15])
+					const triangleC = veR[1].distanceTo(veR[15])
+
+					const perimeterHalf = (triangleA+triangleB+triangleC)/2
+					const radius = triangleA*triangleB*triangleC/(4*Math.sqrt(perimeterHalf*(perimeterHalf-triangleA)*(perimeterHalf-triangleB)*(perimeterHalf-triangleC)))
+
 					// line
 
-					let lineMaterial = new THREE.LineBasicMaterial
-					({
-						color: 0xE5B80B
-					});
+					// const lineMaterial = new THREE.LineBasicMaterial
+					// ({
+					// 	color: 0xE5B80B
+					// });
 
-					const points = [];
-					points.push( veR[1]);
-					points.push( veR[8]);
-					points.push( veR[15]);
+					// const points = [];
+					// points.push( veR[1]);
+					// points.push( veR[8]);
+					// points.push( veR[15]);
 
-					const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
-					const line = new THREE.Line( lineGeometry, lineMaterial );
-					scene.add( line );
-					
-					
-					
-					console.log(veR)
+					// const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
+					// const line = new THREE.Line( lineGeometry, lineMaterial );
+					// scene.add( line )
+
+					console.log(radius)
 
 				}
 
-				
+			
 
 			}
 
