@@ -399,8 +399,6 @@
 
 					for(let i = 1;i < veR.length-1;i++){
 						const radius = radiusTriangle(veR[i-1],veR[i],veR[i+1])
-						console.log(radius)
-						
 						// line1
 						let lineMaterial1
 
@@ -421,6 +419,8 @@
 						lineHepers.push(line1)
 					
 					 	scene.add( line1)
+
+						console.log(radius)
 
 					}
 				
