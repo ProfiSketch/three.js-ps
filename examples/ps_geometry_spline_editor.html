@@ -123,7 +123,7 @@
 				container.appendChild( renderer.domElement );
 				
 
-				// const gui = new GUI();
+				const gui = new GUI();
 
 				// gui.add( params, 'uniform' ).onChange( render );
 				// gui.add( params, 'tension', 0, 1 ).step( 0.01 ).onChange( function ( value ) {
@@ -135,8 +135,8 @@
 				// } );
 				// gui.add( params, 'centripetal' ).onChange( render );
 				// gui.add( params, 'chordal' ).onChange( render );
-				// gui.add( params, 'addPoint' );
-				// gui.add( params, 'removePoint' );
+				gui.add( params, 'addPoint' );
+				gui.add( params, 'removePoint' );
 				// gui.add( params, 'exportSpline' );
 				// gui.open();
 
