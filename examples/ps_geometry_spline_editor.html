@@ -62,7 +62,7 @@
 			const geometry = new THREE.BoxGeometry( 20, 20, 20 );
 			let transformControl;
 
-			const ARC_SEGMENTS = 20;
+			const ARC_SEGMENTS = 40;
 
 			const splines = {};
 
@@ -226,77 +226,6 @@
 					new THREE.Vector3( - 383.785318791128, 491.1365363371675, 47.869296953772746 ) ] );
 
 				render();
-
-				// Вывод вершин в консоль
-
-				let raD
-				const poS = curve.mesh.geometry.attributes.position
-				
-				
-
-				// console.log(curve.mesh.geometry.attributes.position)
-				
-			
-				// Массив вершин
-
-
-
-				// for(let i = 0; i < poS.count; i++)
-				// {
-				// 	veR[i] = new THREE.Vector3 (poS.getX(i),poS.getY(i),poS.getZ(i))
-					
-				// }
-
-				
-
-
-				// let lineMaterial = new THREE.LineBasicMaterial
-				// ({
-				// 	color: 0x0000ff
-				// });
-
-				// const points = [];
-				// points.push( veR[1] );
-				// points.push( veR[4]);
-				// points.push( veR[8]);
-				
-
-				// const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
-
-				// const line = new THREE.Line( lineGeometry, lineMaterial );
-				
-				// scene.add( line );
-
-				// console.log(line.geometry.attributes.position.array)
-
-				
-
-
-				// Радиус описанной окружности по трём точкам в пространстве
-				// function radiusTriangle ( x, y, z ) 
-				// {
-
-				// 	// Стороны треугольника
-				// 	var a = x.distanceTo( y )
-				// 	var b = y.distanceTo( z )
-				// 	var c = x.distanceTo( z )
-					
-				// 	// Радиус описанной окружности
-				// 	var p = (a + b + c) / 2
-				// 	var r = a * b * c / ( 4 * Math.sqrt( p * (p - a) * (p - b) * (p - c) )) 
-				// 	return r		
-				// }
-
-				// Расчет радиуса на каждом отрезке
-
-				// for(let i = 1; i < poS.count-1; i++)
-
-				// {
-					// const vertex = new THREE.Vector3(veR[i-1], veR[i], veR[i+1])
-					// raD = radiusTriangle(veR[i-1], veR[i], veR[i+1])
-					// console.log(raD)
-				// }
-
 			}
 
 			function addSplineObject( position ) {
@@ -423,46 +352,6 @@
 						console.log(radius)
 
 					}
-				
-					// const radius = radiusTriangle(veR[0],veR[1],veR[2])
-
-					// line1
-					// let lineMaterial1
-
-					// if(radius<300){
-					// 	lineMaterial1 = new THREE.LineBasicMaterial({color: 0xe01616});
-					// } else {
-					// 	lineMaterial1 = new THREE.LineBasicMaterial({color: 0xE5B80B});
-					// }
-
-					// const points1 = [];
-					// points1.push( veR[0]);
-					// points1.push( veR[1]);
-
-					// const lineGeometry1 = new THREE.BufferGeometry().setFromPoints(points1);
-					// const line1 = new THREE.Line( lineGeometry1, lineMaterial1 );
-
-					// / line2
-					
-					// const lineMaterial2 = new THREE.LineBasicMaterial({color: 0xE5B80B});
-					
-
-					// const points2 = [];
-					// points2.push( veR[1]);
-					// points2.push( veR[2]);
-
-					// const lineGeometry2 = new THREE.BufferGeometry().setFromPoints(points2);
-					// const line2 = new THREE.Line( lineGeometry2, lineMaterial2 );
-
-
-
-					// lineHepers.push(line1,line2)
-					
-					// scene.add( line1,line2 )
-
-
-					
-
 				}
 
 			
