@@ -57,6 +57,9 @@
 			let tubeRadius = 20
 			let tubularSegment = 20
 			let radialSegments =10
+			let tubeOpacity = 0.5
+			let tubeRoughness = 0.5
+			let tubeMetalness = 0.5
 
 			const raycaster = new THREE.Raycaster();
 			const pointer = new THREE.Vector2();
@@ -66,11 +69,14 @@
 			const geometry = new THREE.BoxGeometry( 15, 15, 15 );
 			let transformControl;
 
-			let ARC_SEGMENTS = 20;
+			let ARC_SEGMENTS = 60;
 
 			const splines = {};
 
 			const params = {
+				tubeMetalness:0.5,
+				tubeRoughness:0.5,
+				tubeOpacity:0.5,
 				tubularSegment:20,
 				radialSegments:10,
 				// ARC_SEGMENTS:20,
@@ -182,6 +188,36 @@
 						function(value)
 						{
 							radialSegments = value;
+							updateSplineOutline();
+							render();
+						}
+					)
+				gui.add ( params, 'tubeOpacity',0,1 )
+					.step(0.1)
+					.onChange(
+						function(value)
+						{
+							tubeOpacity = value;
+							updateSplineOutline();
+							render();
+						}
+					)
+				gui.add ( params, 'tubeRoughness',0,1 )
+					.step(0.1)
+					.onChange(
+						function(value)
+						{
+							tubeRoughness = value;
+							updateSplineOutline();
+							render();
+						}
+					)
+				gui.add ( params, 'tubeMetalness',0,1 )
+					.step(0.1)
+					.onChange(
+						function(value)
+						{
+							tubeMetalness = value;
 							updateSplineOutline();
 							render();
 						}
@@ -388,14 +424,21 @@
 					position.needsUpdate = true;
 
 					const geometryTube = new THREE.TubeGeometry( splines.chordal, tubularSegment, tubeRadius, radialSegments, false );
-					const materialTube = new THREE.MeshBasicMaterial( { color: 0xbcd6c3, wireframe:true} );
+					const materialTube = new THREE.MeshStandardMaterial( { 
+						transparent:true, 
+						color: 0x535754, 
+						opacity:tubeOpacity, 
+						wireframe:false,
+						roughness:tubeRoughness,
+						metalness:tubeMetalness
+					} );
 					const meshTube = new THREE.Mesh( geometryTube, materialTube );
 					lineHepers.push(meshTube)
 					scene.add( meshTube );
 					// console.log(meshTube)
 
 
-					for(let i = 1;i < veR.length-1;i++){
+					for(let i = 1;i < ARC_SEGMENTS-1;i++){
 						const radius = radiusTriangle(veR[i-1],veR[i],veR[i+1])
 						// line
 						let lineMaterial1
