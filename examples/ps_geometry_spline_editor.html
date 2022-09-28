@@ -53,21 +53,30 @@
 			const point = new THREE.Vector3();
 			let veR = new Array();
 			let lineHepers = new Array();
+			let radiusLimit
+			let tubeRadius = 20
+			let tubularSegment = 20
+			let radialSegments =10
 
 			const raycaster = new THREE.Raycaster();
 			const pointer = new THREE.Vector2();
 			const onUpPosition = new THREE.Vector2();
 			const onDownPosition = new THREE.Vector2();
 
-			const geometry = new THREE.BoxGeometry( 20, 20, 20 );
+			const geometry = new THREE.BoxGeometry( 15, 15, 15 );
 			let transformControl;
 
-			const ARC_SEGMENTS = 40;
+			let ARC_SEGMENTS = 20;
 
 			const splines = {};
 
 			const params = {
+				tubularSegment:20,
+				radialSegments:10,
+				// ARC_SEGMENTS:20,
+				tubeRadius:20,
 				uniform: true,
+				radiusLimit:300,
 				tension: 0.5,
 				centripetal: true,
 				chordal: true,
@@ -137,7 +146,56 @@
 				// gui.add( params, 'chordal' ).onChange( render );
 				gui.add( params, 'addPoint' );
 				gui.add( params, 'removePoint' );
-				// gui.add( params, 'exportSpline' );
+				gui.add( params, 'radiusLimit',150,3000 )
+					.step(50)
+					.onChange ( 
+						function ( value )
+						{
+							radiusLimit = value;
+							updateSplineOutline();
+							render();
+						}
+					)
+				gui.add ( params, 'tubeRadius',20,40 )
+					.step(5)
+					.onChange(
+						function(value)
+						{
+							tubeRadius = value;
+							updateSplineOutline();
+							render();
+						}
+					)
+				gui.add ( params, 'tubularSegment',20,40 )
+					.step(5)
+					.onChange(
+						function(value)
+						{
+							tubularSegment = value;
+							updateSplineOutline();
+							render();
+						}
+					)
+				gui.add ( params, 'radialSegments',10,30 )
+					.step(5)
+					.onChange(
+						function(value)
+						{
+							radialSegments = value;
+							updateSplineOutline();
+							render();
+						}
+					)
+				// gui.add (params, 'ARC_SEGMENTS',20,100)
+				// 	.step(5)
+				// 	.onChange(
+				// 		function(value)
+				// 		{
+				// 			ARC_SEGMENTS = value;
+				// 			updateSplineOutline();
+				// 			render();
+				// 		}
+				// 	)
 				// gui.open();
 
 				// Controls
@@ -226,6 +284,9 @@
 					new THREE.Vector3( - 383.785318791128, 491.1365363371675, 47.869296953772746 ) ] );
 
 				render();
+
+				
+
 			}
 
 			function addSplineObject( position ) {
@@ -311,7 +372,7 @@
 					const spline = splines[ k ];
 					const splineMesh = spline.mesh;
 					const position = splineMesh.geometry.attributes.position;
-					let radius
+					
 					
 				
 
@@ -326,12 +387,20 @@
 
 					position.needsUpdate = true;
 
+					const geometryTube = new THREE.TubeGeometry( splines.chordal, tubularSegment, tubeRadius, radialSegments, false );
+					const materialTube = new THREE.MeshBasicMaterial( { color: 0xbcd6c3, wireframe:true} );
+					const meshTube = new THREE.Mesh( geometryTube, materialTube );
+					lineHepers.push(meshTube)
+					scene.add( meshTube );
+					// console.log(meshTube)
+
+
 					for(let i = 1;i < veR.length-1;i++){
 						const radius = radiusTriangle(veR[i-1],veR[i],veR[i+1])
-						// line1
+						// line
 						let lineMaterial1
 
-						if(radius<300){
+						if(radius<radiusLimit){
 							lineMaterial1 = new THREE.LineBasicMaterial({color: 0xe01616});
 						} else {
 							lineMaterial1 = new THREE.LineBasicMaterial({color: 0x0000ff});
@@ -347,15 +416,12 @@
 						
 						lineHepers.push(line1)
 					
-					 	scene.add( line1)
+					 	scene.add(line1)
 
-						console.log(radius)
+						// console.log(radius)
 
 					}
 				}
-
-			
-
 			}
 
 			function exportSpline() {
