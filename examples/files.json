@@ -1,6 +1,7 @@
 {
 	"ps": [
-		"ps_geometry_spline_editor"
+		"ps_geometry_spline_editor",
+		"ps_obj"
 	],
 	"webgl": [
 		"webgl_animation_keyframes",
