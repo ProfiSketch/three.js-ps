@@ -2,10 +2,12 @@
 import * as THREE from "three";
 // import * as dat from 'dat.gui'
 import {initAmbientLight, initCamera, initControls, initDirectionalLight, initFloor, initRenderer} from "./initializers.js";
-import {getLoaderPromise} from "./figures.js";
+import {getLoaderPromise, explode} from "./figures.js";
 
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
+const btnExplode = document.getElementById('btn-explode')
+const btnInfo = document.getElementById('btn-info')
 
 /**
  * Base
@@ -39,6 +41,15 @@ scene.add(floor)
 scene.add(ambientLight)
 scene.add(directionalLight)
 scene.add(camera)
+
+btnExplode.onclick = () => {
+  const ind = scene.children.length - 1
+  explode(scene.children[ind], scene)
+}
+
+btnInfo.onclick = () => {
+  console.log(scene)
+}
 
 window.addEventListener('resize', () => {
   // Update sizes
@@ -97,7 +108,7 @@ const props1 = {
 Promise.all([
   getLoaderPromise(props1, scene),
 ]).then(values => {
-  console.log(props1.ports)
+  
 
 }
 

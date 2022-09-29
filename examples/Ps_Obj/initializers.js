@@ -50,7 +50,7 @@ export function initRenderer(canvas, sizes){
 
 export function initCamera(sizes){
   const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-  camera.position.set(7, 7, 7);
+  camera.position.set(15, 15, 15);
   return camera;
 }
 

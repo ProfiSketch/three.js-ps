@@ -9,29 +9,42 @@ let map =  textureLoader.load('Ps_Obj/static/textures/Checkerboard.png')
 map.encoding = THREE.sRGBEncoding
 map.flipY = false
 
+export async function explode (object3d, scene) {
+  console.log('EXPLODE!', object3d.children.length)
+
+  // const promises = object3d.children.map(child => new Promise(function() {
+  //   console.log('Extracting children')
+  //   object3d.parent.attach(child)
+  // }))
+
+  // try {
+  //   Promise.all(promises).then(() => {
+  //     console.log('Extraction finished')
+  //     scene.remove(object3d)
+  //   })
+  // } catch (e)  {
+  //   console.error('Oops', e)
+  // }
+
+  for (const child of object3d.children) {
+    new Promise(function(resolve) {
+      object3d.parent.attach(child)
+    }).then(() => {console.log('Extracting children')})
+  }
+
+ 
+
+}
+
 export function getLoaderPromise (props, scene) {
 
   const onLoadFn = (gltf) => {
 
-    let mesh
+    const mesh = gltf.scene
+    mesh.position.set(5,0, 5)
+    scene.add(mesh);
 
-    for (let i = 0; i<gltf.scene.children.length; i++) {
-
-      const p1 = new Promise (function(resolve,reject) {
-        mesh = gltf.scene.children[i],
-        mesh.material.roughness = 0.7
-        mesh.material.metalness = 0.9
-        resolve(mesh)
-      })
-
-      p1.then(data => {
-        scene.add(data);
-      })
-    }
-
-    // mesh = gltf.scene
-    // scene.add(mesh);
-
+   
     // const box = new THREE.Box3().setFromObject(mesh)
     // const boxHelper = new THREE.Box3Helper(box, color);
     // scene.add(boxHelper);
