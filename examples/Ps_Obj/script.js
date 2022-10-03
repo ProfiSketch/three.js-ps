@@ -40,7 +40,7 @@ scene.add(camera)
 scene.add(floor)
 scene.add(ambientLight)
 scene.add(directionalLight)
-scene.add(camera)
+// scene.add(camera)
 
 btnExplode.onclick = () => {
   const ind = scene.children.length - 1

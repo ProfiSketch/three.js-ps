@@ -25,14 +25,19 @@ export async function explode (object3d, scene) {
   // } catch (e)  {
   //   console.error('Oops', e)
   // }
-
-  for (const child of object3d.children) {
-    new Promise(function(resolve) {
-      object3d.parent.attach(child)
-    }).then(() => {console.log('Extracting children')})
+  for (let i = 0; i < object3d.children.length; i++) {
+    new Promise(function(resolve, reject) {
+      const child = object3d.children[i];
+      resolve(child)
+    })
+    .then((child) => {
+      const parent = object3d.parent || scene
+      parent.attach(child)
+    })
+    .catch((e) => console.error(e))
   }
 
- 
+  scene.remove(object3d)
 
 }
 
