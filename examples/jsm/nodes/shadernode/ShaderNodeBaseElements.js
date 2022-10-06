@@ -116,6 +116,8 @@ export const fn = ( code, includes ) => func( code, includes ).call;
 export const attribute = ( name, nodeType ) => nodeObject( new AttributeNode( name, nodeType ) );
 export const property = ( name, nodeOrType ) => nodeObject( new PropertyNode( name, getConstNodeType( nodeOrType ) ) );
 
+export const convert = ( node, types ) => nodeObject( new ConvertNode( nodeObject( node ), types ) );
+
 export const bypass = nodeProxy( BypassNode );
 export const code = nodeProxy( CodeNode );
 export const context = nodeProxy( ContextNode );
@@ -289,6 +291,9 @@ export const element = nodeProxy( ArrayElementNode );
 
 // miscellaneous
 
-export const difference = ( a, b ) => nodeObject( abs( sub( a, b ) ) );
+export const lumaCoeffs = vec3( 0.2125, 0.7154, 0.0721 );
+
+export const luminance = ( color, luma = lumaCoeffs ) => dot( color, luma );
+export const difference = ( a, b ) => abs( sub( a, b ) );
 export const dotNV = clamp( dot( transformedNormalView, positionViewDirection ) );
 export const TBNViewMatrix = mat3( tangentView, bitangentView, normalView );
