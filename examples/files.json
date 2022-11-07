@@ -1,7 +1,9 @@
 {
 	"ps": [
 		"ps_geometry_spline_editor",
-		"ps_obj"
+		"ps_obj",
+		"ps_geometry_convex",
+		"ps_interactive_points"
 	],
 	"webgl": [
 		"webgl_animation_keyframes",
